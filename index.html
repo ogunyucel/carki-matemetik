@@ -126,6 +126,22 @@
             transition: border-color 0.3s ease;
         }
 
+        .wheel-wrapper {
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .curved-arrows {
+            position: absolute;
+            top: -15px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 160px;
+            pointer-events: none;
+            z-index: 15;
+        }
+
         .wheel-container {
             width: 280px;
             height: 140px; 
@@ -146,17 +162,16 @@
             box-sizing: border-box;
             touch-action: none; 
             transform-origin: center center;
-            overflow: hidden; /* Kenar taşmalarını garanti engeller */
+            overflow: hidden; 
         }
 
-        /* Çizgiler için yeni bağımsız ızgara sınıfı */
         .wheel-lines {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
                 linear-gradient(to right, transparent calc(50% - 2px), #7f8c8d calc(50% - 2px), #7f8c8d calc(50% + 2px), transparent calc(50% + 2px)),
                 linear-gradient(to bottom, transparent calc(50% - 2px), #7f8c8d calc(50% - 2px), #7f8c8d calc(50% + 2px), transparent calc(50% + 2px));
-            pointer-events: none; /* Tıklamaları engellemez */
+            pointer-events: none; 
             z-index: 5;
             border-radius: 50%;
         }
@@ -167,7 +182,6 @@
             height: 140px;
             cursor: pointer;
             transition: background-color 0.3s;
-            /* Kenarlıklar tamamen kaldırıldı, çizimi wheel-lines yapacak */
         }
 
         .left-slice { top: 0; left: 0; border-top-left-radius: 140px; }
@@ -236,6 +250,7 @@
             .right-slice .slice-text { bottom: 50px; left: 50px; }
             .bottom-left-slice .slice-text { top: 50px; right: 50px; }
             .bottom-right-slice .slice-text { top: 50px; left: 50px; }
+            .curved-arrows { width: 290px; height: 145px; top: -12px; }
         }
 
     </style>
@@ -271,26 +286,45 @@
             <div class="pointer"></div>
         </div>
 
-        <div class="wheel-container">
-            <div class="wheel" id="wheel">
-                <div class="slice left-slice" id="slice-left">
-                    <span class="slice-text" id="slice-left-text">30</span>
+        <div class="wheel-wrapper">
+            <svg class="curved-arrows" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <marker id="arrow-head" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                        <path d="M 0 0 L 6 3 L 0 6 Z" fill="#7f8c8d" />
+                    </marker>
+                </defs>
+                <path d="M 95 15 A 152 152 0 0 0 15 105" 
+                      fill="none" stroke="#7f8c8d" stroke-width="3.5" stroke-linecap="round" 
+                      marker-end="url(#arrow-head)">
+                </path>
+                <path d="M 225 15 A 152 152 0 0 1 305 105" 
+                      fill="none" stroke="#7f8c8d" stroke-width="3.5" stroke-linecap="round" 
+                      marker-end="url(#arrow-head)">
+                </path>
+            </svg>
+
+            <div class="wheel-container">
+                <div class="wheel" id="wheel">
+                    <div class="slice left-slice" id="slice-left">
+                        <span class="slice-text" id="slice-left-text">30</span>
+                    </div>
+                    <div class="slice right-slice" id="slice-right">
+                        <span class="slice-text" id="slice-right-text">20</span>
+                    </div>
+                    <div class="slice bottom-left-slice" id="slice-bottom-left">
+                        <span class="slice-text" id="slice-bottom-left-text">15</span>
+                    </div>
+                    <div class="slice bottom-right-slice" id="slice-bottom-right">
+                        <span class="slice-text" id="slice-bottom-right-text">45</span>
+                    </div>
+                    
+                    <div class="wheel-lines"></div>
+                    
+                    <div class="center-pin"></div>
                 </div>
-                <div class="slice right-slice" id="slice-right">
-                    <span class="slice-text" id="slice-right-text">20</span>
-                </div>
-                <div class="slice bottom-left-slice" id="slice-bottom-left">
-                    <span class="slice-text" id="slice-bottom-left-text">15</span>
-                </div>
-                <div class="slice bottom-right-slice" id="slice-bottom-right">
-                    <span class="slice-text" id="slice-bottom-right-text">45</span>
-                </div>
-                
-                <div class="wheel-lines"></div>
-                
-                <div class="center-pin"></div>
             </div>
         </div>
+
     </div>
 
     <p id="message">Çarkı doğru cevaba döndür!</p>
